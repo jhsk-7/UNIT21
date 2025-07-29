@@ -1,0 +1,14 @@
+<h1>Dogs you adopted</h1>
+
+<% if (dogs.length === 0) { %>
+<p>No dogs currently listed.</p>
+<% } else { %>
+<% dogs.forEach(dog => { %>
+    <div class="dog" data-id="<%= dog._id %>">
+    <h3><%= dog.name %></h3>
+    <p><%= dog.description %></p>
+    <p class="meta">Adopted by: <%= dog.adoptedBy %></p>
+    </div>
+<% }) %>
+<% } %>
+
