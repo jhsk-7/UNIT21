@@ -1,0 +1,35 @@
+<h1>Dogs Available for Adoption</h1>
+
+<% if (dogs.length === 0) { %>
+<p>No dogs currently listed.</p>
+<% } else { %>
+<% dogs.forEach(dog => { %>
+    <div class="dog" data-id="<%= dog._id %>">
+    <h3><%= dog.name %></h3>
+    <p><%= dog.description %></p>
+    <p class="meta">Posted by: <%= dog.postedBy %></p>
+    <button onclick="adoptDog('<%= dog._id %>')">Adopt</button>
+    </div>
+<% }) %>
+<% } %>
+
+<script>
+async function adoptDog(id) {
+    try {
+    const res = await fetch(`/adopt/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+    });
+    if (res.ok) {
+        // Remove dog from DOM
+        document.querySelector(`[data-id='${id}']`).remove();
+    } else {
+        const data = await res.json();
+        alert(data.error || "Failed to adopt");
+    }
+    } catch (err) {
+    console.error(err);
+    alert("Something went wrong");
+    }
+}
+</script>
